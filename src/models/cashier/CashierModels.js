@@ -40,6 +40,13 @@ class CashierModels {
         const result = await db.query(query, values)
         return result.rows[0]
     }
+
+    // delete by admin
+    static async deleteCashier(id) {
+        const query = `DELETE FROM cashiers WHERE id = $1 RETURNING *`
+        const result = await db.query(query, [id])
+        return result.rows[0]
+    }
 }
 
 module.exports = CashierModels

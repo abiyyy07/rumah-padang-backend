@@ -54,4 +54,21 @@ const loginCashier = async (req, res) => {
     }
 }
 
-module.exports = { createNewCashier, loginCashier }
+// delete cashier by admin
+const deleteCashierByAdmin = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const deletes = await CashierModels.deleteCashier(id) // function
+
+        // response nya
+        res.status(200).json({
+            message: "Deleted successfuly",
+            deletes
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+module.exports = { createNewCashier, loginCashier, deleteCashierByAdmin }
