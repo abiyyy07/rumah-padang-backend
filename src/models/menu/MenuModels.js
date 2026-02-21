@@ -4,7 +4,7 @@ class MenuModels {
 
     // create new menu
     static async createMenu(name, description, price, stock) {
-        const query = `INSERT INTO menus (name, description, price, stock) VALUES ($1, $2, $3, $4) RETURNING *`
+        const query = `INSERT INTO menu (name, description, price, stock) VALUES ($1, $2, $3, $4) RETURNING *`
         const values = [name, description, price, stock]
         const result = await db.query(query, values)
         return result.rows[0]
@@ -12,14 +12,14 @@ class MenuModels {
 
     // retrieve all menus (semua)
     static async retrieveAll() {
-        const query = `SELECT * FROM menus`
+        const query = `SELECT * FROM menu`
         const result = await db.query(query)
         return result.rows
     }
 
     // retrieve detail menus (satu)
     static async retrieveDetail(id) {
-        const query = `SELECT * FROM menus WHERE id = $1`
+        const query = `SELECT * FROM menu WHERE id = $1`
         const result = await db.query(query, [id])
         return result.rows[0]
     }
@@ -29,7 +29,7 @@ class MenuModels {
         // declare data here (as payload)
         const {name, description, price, stock} = data;
 
-        let query = `UPDATE menus SET `;
+        let query = `UPDATE menu SET `;
         const values = [];
         const setClause = [];
 
@@ -67,7 +67,7 @@ class MenuModels {
 
     // delete menu
     static async deleteMenu(id) {
-        const query = `DELETE FROM menus WHERE id = $1 RETURNING *`
+        const query = `DELETE FROM menu WHERE id = $1 RETURNING *`
         const result = await db.query(query, [id])
         return result.rows[0]
     }

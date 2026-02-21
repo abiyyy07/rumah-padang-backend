@@ -7,7 +7,7 @@ class TransactionModels {
             await db.query('BEGIN')
 
             // query for transaction first
-            const txQuery = `INSERT INTO transactions (id_buyer, id_cashier, total_price) VALUES ($1, $2, $3) RETURNING transaction_id`
+            const txQuery = `INSERT INTO transaction (id_buyer, id_cashier, total_price) VALUES ($1, $2, $3) RETURNING transaction_id`
             const txResult = await db.query(txQuery, [id_buyer, id_cashier, total_price])
             const newTransactionId = txResult.rows[0].transaction_id
 
@@ -34,7 +34,7 @@ class TransactionModels {
 
     // retrieve all transactions
     static async retrieveTransactions() {
-        const query = `SELECT * FROM transactions`
+        const query = `SELECT * FROM transaction`
         const result = await db.query(query)
         return result.rows
     }
@@ -51,7 +51,7 @@ class TransactionModels {
                     WHERE transaction_id = t.transaction_id
                 ) td
             ) AS items
-        FROM transactions t
+        FROM transaction t
         WHERE t.transaction_id = $1`;
         
         const result = await db.query(query, [transaction_id])
@@ -60,7 +60,7 @@ class TransactionModels {
 
     // delete transaction
     static async deleteTransaction(transaction_id) {
-        const query = `DELETE FROM transactions WHERE transaction_id = $1`
+        const query = `DELETE FROM transaction WHERE transaction_id = $1`
         const result = await db.query(query, [transaction_id])
         return result.rows[0]
     }

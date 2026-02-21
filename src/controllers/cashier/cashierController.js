@@ -4,14 +4,14 @@ const jwt = require('jsonwebtoken')
 
 // regist new cashier
 const createNewCashier = async (req, res) => {
-    const {name, email, password, phone, address} = req.body
+    const {first_name, last_name, email, password, phone, street, city, postal_code} = req.body
 
     try {
         // check exist email
         const isExist = await CashierModels.findByEmail(email)
         if (isExist) return res.status(403).json({ message: "Email already used" }) // if email exist
 
-        const cashier = await CashierModels.createNewCashier(name, email, password, phone, address)
+        const cashier = await CashierModels.createNewCashier(first_name, last_name, email, password, phone, street, city, postal_code)
 
         // response and result
         res.status(201).json({
