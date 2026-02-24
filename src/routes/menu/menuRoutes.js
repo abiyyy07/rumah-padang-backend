@@ -10,7 +10,7 @@ const isAdmin = require('../../middleware/role/isAdminRole')
 const menuController = require('../../controllers/menu/menuController')
 
 // routes here
-router.post('/new', verifyToken, menuController.createNewMenu)
+router.post('/new', verifyToken, isAdmin, menuController.createNewMenu)
 router.get('/', menuController.retrieveAllMenus)
 router.get('/:id', menuController.retrieveDetailMenu)
 router.put('/update/:id', verifyToken, isAdmin, menuController.updateMenu)

@@ -2,13 +2,13 @@ const db = require('../../config/db')
 
 class TransactionModels {
     // create new transaction
-    static async createNewTransaction(id_buyer, id_cashier, total_price, items) {
+    static async createNewTransaction(id_cashier, total_price, items) {
         try {
             await db.query('BEGIN')
 
             // query for transaction first
-            const txQuery = `INSERT INTO transaction (id_buyer, id_cashier, total_price) VALUES ($1, $2, $3) RETURNING transaction_id`
-            const txResult = await db.query(txQuery, [id_buyer, id_cashier, total_price])
+            const txQuery = `INSERT INTO transaction (id_cashier, total_price) VALUES ($1, $2) RETURNING transaction_id`
+            const txResult = await db.query(txQuery, [id_cashier, total_price])
             const newTransactionId = txResult.rows[0].transaction_id
 
             // transaction detail

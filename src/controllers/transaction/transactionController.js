@@ -2,13 +2,13 @@ const TransactionModels = require('../../models/transaction/TransactionModels')
 
 // create new transaction
 const createNewTransaction = async (req, res) => {
-    const { id_buyer, total_price, items } = req.body
+    const { total_price, items } = req.body
 
     try {
         // id cashier
         const id_cashier = req.user.id
 
-        const transactions = await TransactionModels.createNewTransaction(id_buyer, id_cashier, total_price, items)
+        const transactions = await TransactionModels.createNewTransaction(id_cashier, total_price, items)
 
         // response and result
         res.status(201).json({
