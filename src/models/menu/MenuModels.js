@@ -3,9 +3,9 @@ const db = require('../../config/db')
 class MenuModels {
 
     // create new menu
-    static async createMenu(name, description, price, stock) {
-        const query = `INSERT INTO menu (name, description, price, stock) VALUES ($1, $2, $3, $4) RETURNING *`
-        const values = [name, description, price, stock]
+    static async createMenu(name, desc, stock, price, category) {
+        const query = `INSERT INTO menu (name, "desc", stock, price, category) VALUES ($1, $2, $3, $4, $5) RETURNING *`
+        const values = [name, desc, stock, price, category]
         const result = await db.query(query, values)
         return result.rows[0]
     }
@@ -27,7 +27,7 @@ class MenuModels {
     // update menus
     static async updateMenu(id, data) {
         // declare data here (as payload)
-        const {name, description, price, stock} = data;
+        const {name, desc, price, stock, category} = data;
 
         let query = `UPDATE menu SET `;
         const values = [];
@@ -38,17 +38,21 @@ class MenuModels {
             values.push(name)
             setClause.push(` name = $${values.length}`)
         }
-        if (description) {
-            values.push(description)
-            setClause.push(` description = $${values.length}`)
+        if (desc) {
+            values.push(desc)
+            setClause.push(` desc = $${values.length}`)
+        }
+        if (stock) {
+            values.push(stock)
+            setClause.push(` stock = $${values.length}`)
         }
         if (price) {
             values.push(price)
             setClause.push(` price = $${values.length}`)
         }
-        if (stock) {
-            values.push(stock)
-            setClause.push(` stock = $${values.length}`)
+        if (category) {
+            values.push(category)
+            setClause.push(` category = $${values.length}`)
         }
 
         if (setClause.length === 0) return null;

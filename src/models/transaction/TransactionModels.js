@@ -60,9 +60,20 @@ class TransactionModels {
 
     // delete transaction
     static async deleteTransaction(transaction_id) {
-        const query = `DELETE FROM transaction WHERE transaction_id = $1`
-        const result = await db.query(query, [transaction_id])
-        return result.rows[0]
+        try {
+            await db.query('BEGIN');
+            
+            // 1. Hapus anaknya dulu
+            await db.query('DELETE FROM transaction_detail WHERE transaction_id = $1', [transaction_id]);
+            
+            // 2. Baru hapus induknya
+            await db.query('DELETE FROM transaction WHERE transaction_id = $1', [transaction_id]);
+            
+            await db.query('COMMIT');
+        } catch (error) {
+            await db.query('ROLLBACK');
+            throw error;
+        }
     }
 }
 

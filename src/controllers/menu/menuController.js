@@ -2,10 +2,10 @@ const MenuModels = require('../../models/menu/MenuModels')
 
 // create new controller
 const createNewMenu = async (req, res) => {
-    const { name, description, price, stock } = req.body
+    const { name, desc, price, stock, category } = req.body
     
     try {
-        const menus = await MenuModels.createMenu(name, description, price, stock) // function create
+        const menus = await MenuModels.createMenu(name, desc, price, stock, category) // function create
 
         // response and return
         res.status(201).json({
